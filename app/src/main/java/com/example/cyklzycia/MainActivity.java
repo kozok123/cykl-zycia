@@ -1,12 +1,14 @@
 package com.example.cyklzycia;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -26,9 +28,14 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        if (savedInstanceState != null) {
+            punkty = savedInstanceState.getInt("PUNKTY", 0);
+        }
         plus = findViewById(R.id.button);
         minus = findViewById(R.id.button2);
         wynik = findViewById(R.id.punkty);
+        wynik.setText(punkty+"");
 
         plus.setOnClickListener(
                 new View.OnClickListener() {
@@ -86,5 +93,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.i("CZAS", "wywołana metoda onDestroy");
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        Log.i("CZAS", "Wywołana metoda onSave");
+        outState.putInt("punkty", punkty);
     }
 }
